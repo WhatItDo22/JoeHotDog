@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            background-color: #d49b9b;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .container .hotdog-theme {
+            background: url('hotdogs.webp') no-repeat center center/cover;
+            padding: 50px 0;
+            margin: 20px 0;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            height: 300px;
+        }
+
+        header {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        header img {
+            width: 60px;
+            height: auto;
+        }
+        header h1 {
+            margin-left: 20px;
+            animation: slideIn 2s ease-in-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .hotdog-theme {
+            background: url('hotdogs.webp') no-repeat center center/cover;
+            padding: 50px 0;
+            margin: 20px 0;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+        }
+        button {
+            display: block;
+            margin: 0 auto; 
+            background-color: #ff471a;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+        }
+        button:hover {
+            background-color: #e64015;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+                margin: 10px 0;
+            }
+            .hotdog-theme {
+                padding: 30px 0;
+            }
+        }
+    </style>
+    <title>Joe's Hotdog Stand</title>
+    <script>
+        const PRICES = {
+            hotdog: 4.65,
+            fries: 3.75,
+            soda: 1.89
+        };
+
+        function showMoney(number) {
+            let rounded = Math.floor(number * 100);
+            let decimalPart = Math.round((number * 100) % 100);
+            let integerPart = Math.floor(number);
+            if (decimalPart === 100) {
+                decimalPart = 0;
+                integerPart += 1;
+            }
+            let decimalStr = decimalPart < 10 ? '0' + decimalPart.toString() : decimalPart.toString();
+            return `$${integerPart}.${decimalStr}`;
+        }
+
+        function calculateOrder() {
+            const numDogs = parseInt(prompt("How many hotdogs do you want?", "0"));
+            const numFries = parseInt(prompt("How many fries do you want?", "0"));
+            const numSoda = parseInt(prompt("How many sodas do you want?", "0"));
+
+            let subtotal = (PRICES.hotdog * numDogs) + (PRICES.fries * numFries) + (PRICES.soda * numSoda);
+            let discount = subtotal >= 25 ? subtotal * 0.1 : 0;
+            let subtotalAfterDiscount = subtotal - discount;
+            let tax = subtotalAfterDiscount * 0.0625;
+            let total = subtotalAfterDiscount + tax;
+
+            document.getElementById("orderDetails").innerHTML = `
+                <p>Hotdogs: ${numDogs} x ${showMoney(PRICES.hotdog)} = ${showMoney(PRICES.hotdog * numDogs)}</p>
+                <p>Fries: ${numFries} x ${showMoney(PRICES.fries)} = ${showMoney(PRICES.fries * numFries)}</p>
+                <p>Sodas: ${numSoda} x ${showMoney(PRICES.soda)} = ${showMoney(PRICES.soda * numSoda)}</p>
+                <p>Subtotal: ${showMoney(subtotal)}</p>
+                <p>Discount: ${showMoney(discount)}</p>
+                <p>Subtotal after discount: ${showMoney(subtotalAfterDiscount)}</p>
+                <p>Tax: ${showMoney(tax)}</p>
+                <p>Total: ${showMoney(total)}</p>
+            `;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="hotdog.png" alt="Joe's Hotdog Stand Logo">
+            <h1>Joe's Hotdog Stand</h1>
+        </header>
+        <div class="hotdog-theme">
+        </div>
+        <div style="text-align: center; margin: 20px 0;">
+            <p>Welcome to Joe's Hotdog Stand, the go-to spot for the best hotdogs, crispy french fries, and refreshing drinks in town. Each item on our menu is prepared with care, ensuring that every bite is a delightful experience. Don't hesitate, place your order today and enjoy the flavors that make us a local favorite!</p>
+        </div>
+        <button onclick="calculateOrder()">Order Now</button>
+        <div id="orderDetails" class="order-details"></div>
+        <footer>
+            <p>© 2024 Joe's Hotdog Stand</p>
+        </footer>
+    </div>
+</body>
+</html>
